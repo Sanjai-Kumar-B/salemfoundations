@@ -82,6 +82,28 @@
         ]
     });
 
+    
+    //why us - stats 
+
+document.querySelectorAll('.number').forEach(function (numElement) {
+    const target = +numElement.getAttribute('data-target'); // Get the target number
+    let current = 0; // Start from 0
+    const increment = target / 100; // Increment value for smooth animation
+
+    const updateNumber = () => {
+        current += increment; // Increase current number
+
+        if (current >= target) {
+            numElement.textContent = `${target}+`; // Stop at target and add "+"
+        } else {
+            numElement.textContent = `${Math.ceil(current)}+`; // Update the number with a "+"
+            requestAnimationFrame(updateNumber); // Continue animation
+        }
+    };
+
+    updateNumber();
+});
+
 
     // Testimonials carousel
     $(".testimonial-carousel").owlCarousel({
@@ -104,6 +126,48 @@
             }
         }
     });
-    
+
+
+// hero page
+let currentIndex = 0;
+
+function showSlide(index) {
+  const slides = document.querySelectorAll('.carousel-item');
+  if (index >= slides.length) currentIndex = 0;
+  else if (index < 0) currentIndex = slides.length - 1;
+  else currentIndex = index;
+  const offset = -currentIndex * 100;
+  document.querySelector('.carousel-inner').style.transform = `translateX(${offset}%)`;
+}
+
+function nextSlide() {
+  showSlide(currentIndex + 1);
+}
+
+function prevSlide() {
+  showSlide(currentIndex - 1);
+}
+
+
+const inputs = document.querySelectorAll(".input");
+
+function focusFunc() {
+  let parent = this.parentNode;
+  parent.classList.add("focus");
+}
+
+function blurFunc() {
+  let parent = this.parentNode;
+  if (this.value == "") {
+    parent.classList.remove("focus");
+  }
+}
+
+inputs.forEach((input) => {
+  input.addEventListener("focus", focusFunc);
+  input.addEventListener("blur", blurFunc);
+});
+
+
 })(jQuery);
 
